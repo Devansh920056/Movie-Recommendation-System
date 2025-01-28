@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import RecommendationForm from "./components/RecommendationForm";
 import RecommendationsList from "./components/RecommendationsList";
 
@@ -29,6 +29,7 @@ const MovieRecommendationApp = () => {
         setError(data.error);
       }
     } catch (err) {
+      console.error(err);
       setError("Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);

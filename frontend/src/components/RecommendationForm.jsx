@@ -2,29 +2,34 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 
 const RecommendationForm = ({ onRecommend }) => {
-  const [movie, setMovie] = useState("");
+  const [query, setQuery] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onRecommend(movie);
+    if (!query.trim()) {
+      alert("Please enter a movie name!");
+      return;
+    }
+    onRecommend(query);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="movie">Enter a Movie Title:</label>
+    <form onSubmit={handleSubmit} className="flex gap-4 justify-center">
       <input
         type="text"
-        id="movie"
-        value={movie}
-        onChange={(e) => setMovie(e.target.value)}
-        placeholder="e.g., Avatar"
-        required
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Enter a movie..."
+        className="p-2 border rounded"
       />
-      <button type="submit">Get Recommendations</button>
+      <button type="submit" className="p-2 bg-blue-500 text-white rounded">
+        Get Recommendations
+      </button>
     </form>
   );
 };
 
+// ✅ Correct: Only one default export
 RecommendationForm.propTypes = {
   onRecommend: PropTypes.func.isRequired,
 };
