@@ -9,10 +9,10 @@ from sklearn.metrics.pairwise import cosine_similarity
 app = Flask(__name__)
 CORS(app)
 
-# Load preprocessed dataset
+# Load dataset
 movies = pd.read_csv("data/movies_with_images.csv")
 
-# TF-IDF Vectorizer to convert text to numerical format
+# TF-IDF Vectorizer
 vectorizer = TfidfVectorizer(stop_words="english")
 movies["combined_features"] = movies["genres"].fillna("") + " " + movies["overview"].fillna("")
 feature_matrix = vectorizer.fit_transform(movies["combined_features"])
@@ -36,8 +36,7 @@ def recommend_movies(movie_title):
         image_url = movies.iloc[i]["image_url"]
         genre = movies.iloc[i]["genres"]
 
-        # Fetch real poster from TMDB if missing
-        if image_url == "https://via.placeholder.com/150":
+        if pd.isna(image_url) or image_url == "https://via.placeholder.com/150":
             image_url = fetch_movie_poster(title)
 
         recommendations.append({"title": title, "image_url": image_url, "genre": genre})
